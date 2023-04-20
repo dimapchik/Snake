@@ -51,18 +51,11 @@ def start_game(speed):
         level.snake.move(dx, dy)
         level.draw_level()
         draw_score(score)
-        if len(level.snake.body) == 0:
+        if len(level.snake.body) == 0 or level.snake.head in level.barriers or level.snake.is_self_collision():
             game = False
             leader_board.add_score(name, score)
             end_menu.draw(score)
-        if level.snake.head in level.barriers:
-            game = False
-            leader_board.add_score(name, score)
-            end_menu.draw(score)
-        if level.snake.is_self_collision():
-            game = False
-            leader_board.add_score(name, score)
-            end_menu.draw(score)
+
         pygame.display.update()
 
 
