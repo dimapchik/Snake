@@ -8,18 +8,23 @@ class Menu:
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.font = pygame.font.SysFont('Arial', 30)
         self.title = self.font.render('Snake Game', True, BLACK)
-        self.start_button = pygame.Rect(self.width/2-100, self.height/2-50, 200, 50)
-        self.settings_button = pygame.Rect(self.width/2-100, self.height/2+50, 200, 50)
+        self.start_button = pygame.Rect(self.width/3, self.height/2-50, self.width/3, 50)
+        self.settings_button = pygame.Rect(self.width/3, self.height/2+50, self.width/3, 50)
+        self.leader_board_button = pygame.Rect(self.width/3, self.height/2+150, self.width/3, 50)
+
 
     def draw(self):
         self.screen.fill(WHITE)
         self.screen.blit(self.title, (self.width/2-70, self.height/4))
         pygame.draw.rect(self.screen, RED, self.start_button)
         pygame.draw.rect(self.screen, GREEN, self.settings_button)
+        pygame.draw.rect(self.screen, BLUE, self.leader_board_button)
         start_text = self.font.render('Start', True, BLACK)
         settings_text = self.font.render('Settings', True, BLACK)
+        leader_board_text = self.font.render('Leader board', True, BLACK)
         self.screen.blit(start_text, (self.width/2-30, self.height/2-40))
         self.screen.blit(settings_text, (self.width/2-45, self.height/2+60))
+        self.screen.blit(leader_board_text, (self.width/2-70, self.height/2+160))
         pygame.display.update()
 
 class EndMenu:
@@ -30,15 +35,19 @@ class EndMenu:
         self.font = pygame.font.SysFont('Arial', 20)
         self.title = self.font.render('Wasted!', True, BLACK)
         self.retry = pygame.Rect(self.width/2, self.height/2, 100, 50)
+        self.main_menu = pygame.Rect(self.width/2, self.height * 3 / 4, 100, 50)
 
     def draw(self, score):
         self.screen.fill(WHITE)
         self.screen.blit(self.title, (self.width/2, self.height/4))
         pygame.draw.rect(self.screen, RED, self.retry)
+        pygame.draw.rect(self.screen, RED, self.main_menu)
         retry_text = self.font.render('Retry', True, BLACK)
         score_text = self.font.render('Your score: ' + str(score), True, BLACK)
+        main_menu_text = self.font.render('Main menu', True, BLACK)
         self.screen.blit(retry_text, (self.width/2 + 30, self.height/2 + 10))
         self.screen.blit(score_text, (self.width/2, self.height/2-40))
+        self.screen.blit(main_menu_text, (self.width/2, self.height * 3/4 + 10))
         pygame.display.update()
 
 class Setting:
@@ -70,3 +79,35 @@ class Setting:
         self.screen.blit(fourth_level_text, (self.width * 4 / 5, self.height * 2 / 3))
         pygame.display.update()
 
+class LeaderBoard:
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+        self.screen = pygame.display.set_mode((self.width, self.height))
+        self.font = pygame.font.SysFont('Arial', 30)
+        self.title = self.font.render('Leader Board', True, BLACK)
+        self.main_menu = pygame.Rect(self.width / 6, height / 6, self.width / 5, 30)
+        self.positions = dict()
+        for i in range(1, 6):
+            self.positions['position_%s' % i] = pygame.Rect(self.width / 3, self.height / 2 + self.height * i / 5, self.width / 3, 30)
+        self.scores = []
+
+    def add_score(self, name, score):
+        self.scores.append((name, score))
+
+    def get_top_scores(self, num_scores):
+        sorted_scores = sorted(self.scores, key=lambda x: x[1], reverse=True)
+        return sorted_scores[:num_scores]
+
+    def draw_top_scores(self, screen):
+        screen.fill(WHITE)
+        screen.blit(self.title, (self.width/2-70, self.height/4))
+        top = self.get_top_scores(min(len(self.scores), 5))
+        for i in range(1, len(top) + 1):
+            pygame.draw.rect(screen, RED, self.positions['position_%s' % i])
+            (name, score) = top[i - 1]
+            position_text = self.font.render(str(name) + ' ' + str(score), True, BLACK)
+            screen.blit(position_text, (self.width / 3, self.height / 2 + self.height * i / 5 + 15))
+        main_menu_text = self.font.render('Main menu', True, BLACK)
+        self.screen.blit(main_menu_text, (self.width / 6, self.height / 6))
+        pygame.display.update()

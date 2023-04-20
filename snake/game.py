@@ -5,10 +5,11 @@ from food import *
 
 pygame.init()
 clock = pygame.time.Clock()
-speed = 10
+speed = 5
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 end_menu = EndMenu(WIDTH, HEIGHT)
 setting_menu = Setting(WIDTH, HEIGHT)
+leader_board = LeaderBoard(WIDTH, HEIGHT)
 main_menu = Menu(WIDTH, HEIGHT)
 main_menu.draw()
 
@@ -17,6 +18,7 @@ for x in range(0, WIDTH, CELL_SIZE):
         for y in range(0, HEIGHT, CELL_SIZE):
             if x == 0 or y == 0 or x == WIDTH - CELL_SIZE or y == HEIGHT - CELL_SIZE:
                 barrier.append((x // CELL_SIZE, y // CELL_SIZE))
+
 
 def draw_score(score):
     font = pygame.font.SysFont('Arial', 15)
@@ -31,20 +33,27 @@ def draw_grid(screen):
                 rect = pygame.Rect(x, y, CELL_SIZE, CELL_SIZE)
                 pygame.draw.rect(screen, RED, rect, CELL_SIZE // 2)
 
-def SetFirstLevel():
+
+def set_first_level():
     global speed
     speed = 5
-def SetSecondLevel():
+
+
+def set_second_level():
     global speed
     speed = 10
 
-def SetThirdLevel():
+
+def set_third_level():
     global speed
     speed = 15
 
-def SetFourthLevel():
+
+def set_fourth_level():
     global speed
     speed = 20
+
+
 def start_game(speed):
     direction = RIGHT
     food = Food(WIDTH, HEIGHT, CELL_SIZE)
@@ -88,16 +97,17 @@ def start_game(speed):
         draw_grid(screen)
         food.draw(screen)
         draw_score(score)
-        for x, y in snake.body:
-            rect = pygame.Rect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE)
-            pygame.draw.rect(screen, BLACK, rect)
+        snake.draw(screen)
         if snake.head in barrier:
             game = False
+            leader_board.add_score("aaa", score)
             end_menu.draw(score)
         if snake.is_self_collision():
             game = False
+            leader_board.add_score("aaa", score)
             end_menu.draw(score)
         pygame.display.update()
+
 
 running = True
 while running:
@@ -105,21 +115,27 @@ while running:
         if event.type == pygame.MOUSEBUTTONDOWN:
             if main_menu.start_button.collidepoint(event.pos):
                 start_game(speed)
-            if end_menu.retry.collidepoint(event.pos):
-                start_game(speed)
+            if main_menu.leader_board_button.collidepoint(event.pos):
+                leader_board.draw_top_scores(screen)
             if main_menu.settings_button.collidepoint(event.pos):
                 setting_menu.draw()
             if setting_menu.first_level.collidepoint(event.pos):
-                SetFirstLevel()
+                set_first_level()
                 main_menu.draw()
             if setting_menu.second_level.collidepoint(event.pos):
-                SetSecondLevel()
+                set_second_level()
                 main_menu.draw()
             if setting_menu.third_level.collidepoint(event.pos):
-                SetThirdLevel()
+                set_third_level()
                 main_menu.draw()
             if setting_menu.fourth_level.collidepoint(event.pos):
-                SetFourthLevel()
+                set_fourth_level()
+                main_menu.draw()
+            if end_menu.retry.collidepoint(event.pos):
+                start_game(speed)
+            if end_menu.main_menu.collidepoint(event.pos):
+                main_menu.draw()
+            if leader_board.main_menu.collidepoint(event.pos):
                 main_menu.draw()
         if event.type == pygame.QUIT:
             running = False

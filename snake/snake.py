@@ -1,5 +1,5 @@
 import pygame
-
+from constants import *
 class Snake:
     def __init__(self, x, y):
         self.head = (x, y)
@@ -21,3 +21,8 @@ class Snake:
 
     def is_self_collision(self):
         return self.head in self.body[1:]
+
+    def draw(self, screen):
+        for x, y in self.body:
+            rect = pygame.Rect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE)
+            pygame.draw.rect(screen, BLACK, rect)
