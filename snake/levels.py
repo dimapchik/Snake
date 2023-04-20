@@ -1,17 +1,27 @@
 import pygame
 from constants import *
-
+from snake import *
+from food import *
 
 class Level:
     def __init__(self):
         self.speed = 5
         self.barriers = []
         self.with_bad_food = False
+        self.good_food = Food(WIDTH, HEIGHT, CELL_SIZE)
+        # bad_food = Food(WIDTH, HEIGHT, CELL_SIZE)
+        self.count_of_good_food = 0
+        # count_of_bad_food = 0
+        self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
+        self.snake = Snake(CELL_SIZE // 2, CELL_SIZE // 2)
 
-    def draw_level(self, screen):
+    def draw_level(self):
+        self.screen.fill(WHITE)
         for x, y in self.barriers:
             rect = pygame.Rect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE)
             pygame.draw.rect(screen, RED, rect, CELL_SIZE // 2)
+        self.good_food.draw(self.screen, GREEN)
+        self.snake.draw(self.screen)
 
     def set_first_level(self):
         self.barriers.clear()

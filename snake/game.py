@@ -24,16 +24,11 @@ def draw_score(score):
 
 
 def start_game(speed):
-    direction = RIGHT
-    good_food = Food(WIDTH, HEIGHT, CELL_SIZE)
     # bad_food = Food(WIDTH, HEIGHT, CELL_SIZE)
-    count_of_good_food = 0
     # count_of_bad_food = 0
-    screen = pygame.display.set_mode((WIDTH, HEIGHT))
-    screen.fill(WHITE)
-    level.draw_level(screen)
+    level = Level()
+    level.draw_level()
     score = 0
-    snake = Snake(CELL_SIZE // 2, CELL_SIZE // 2)
     direction = RIGHT
     game = True
     while game:
@@ -51,38 +46,35 @@ def start_game(speed):
             if game_event.type == pygame.QUIT:
                 game = False
         clock.tick(level.speed)
-        level.speed *= 1.001
-        if count_of_good_food == 0:
-            good_food = Food(WIDTH, HEIGHT, CELL_SIZE)
-            while (good_food.x, good_food.y) in snake.body or (good_food.x, good_food.y) in level.barriers:
-                food = Food(WIDTH, HEIGHT, CELL_SIZE)
-            count_of_good_food += 1
+        level.speed *= 1.002
+        if level.count_of_good_food == 0:
+            level.good_food = Food(WIDTH, HEIGHT, CELL_SIZE)
+            while (level.good_food.x, level.good_food.y) in level.snake.body or (level.good_food.x, level.good_food.y) in level.barriers:
+                level.good_food = Food(WIDTH, HEIGHT, CELL_SIZE)
+            level.count_of_good_food += 1
             # if count_of_bad_food == 0 and random.randint(1, 3) == 1:
             #     bad_food = Food(WIDTH, HEIGHT, CELL_SIZE)
             #     while bad_food in snake.body:
             #         bad_food = Food(WIDTH, HEIGHT, CELL_SIZE)
             #     count_of_bad_food += 1
-        if snake.is_collision(good_food.x, good_food.y):
-            snake.grow()
-            count_of_good_food = 0
+        if level.snake.is_collision(level.good_food.x, level.good_food.y):
+            level.snake.grow()
+            level.count_of_good_food = 0
             score += 1
         # if snake.is_collision(bad_food.x, bad_food.y):
         #     snake.de_grow()
         #     count_of_bad_food = 0
         (dx, dy) = direction
-        snake.move(dx, dy)
-        screen.fill(WHITE)
-        level.draw_level(screen)
-        good_food.draw(screen, GREEN)
+        level.snake.move(dx, dy)
+        level.draw_level()
         # if level.with_bad_food:
         #     bad_food.draw(screen, BROWN)
         draw_score(score)
-        snake.draw(screen)
-        if snake.head in level.barriers:
+        if level.snake.head in level.barriers:
             game = False
             leader_board.add_score(name, score)
             end_menu.draw(score)
-        if snake.is_self_collision():
+        if level.snake.is_self_collision():
             game = False
             leader_board.add_score(name, score)
             end_menu.draw(score)
@@ -115,6 +107,7 @@ def get_name():
         show_text("Enter your name:", 50, BLACK, WIDTH // 2, HEIGHT // 2 - 50)
         show_text(name, 50, BLACK, WIDTH // 2, HEIGHT // 2)
         pygame.display.update()
+
 
 running = True
 while running:
