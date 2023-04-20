@@ -24,11 +24,13 @@ def draw_score(score):
 
 def start_game(speed):
     direction = RIGHT
-    food = Food(WIDTH, HEIGHT, CELL_SIZE)
-    count_of_food = 0
+    good_food = Food(WIDTH, HEIGHT, CELL_SIZE)
+    # bad_food = Food(WIDTH, HEIGHT, CELL_SIZE)
+    count_of_good_food = 0
+    # count_of_bad_food = 0
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     screen.fill(WHITE)
-    level.draw_grid(screen)
+    level.draw_level(screen)
     score = 0
     snake = Snake(CELL_SIZE // 2, CELL_SIZE // 2)
     direction = RIGHT
@@ -48,22 +50,31 @@ def start_game(speed):
             if game_event.type == pygame.QUIT:
                 game = False
         clock.tick(level.speed)
-        if count_of_food == 0:
-            food = Food(WIDTH, HEIGHT, CELL_SIZE)
-            while (food.x, food.y) in snake.body:
+        level.speed *= 1.001
+        if count_of_good_food == 0:
+            good_food = Food(WIDTH, HEIGHT, CELL_SIZE)
+            while (good_food.x, good_food.y) in snake.body:
                 food = Food(WIDTH, HEIGHT, CELL_SIZE)
-            food.draw(screen)
-            count_of_food += 1
-            speed += 1
-        if snake.is_collision(food.x, food.y):
+            count_of_good_food += 1
+            # if count_of_bad_food == 0 and random.randint(1, 3) == 1:
+            #     bad_food = Food(WIDTH, HEIGHT, CELL_SIZE)
+            #     while bad_food in snake.body:
+            #         bad_food = Food(WIDTH, HEIGHT, CELL_SIZE)
+            #     count_of_bad_food += 1
+        if snake.is_collision(good_food.x, good_food.y):
             snake.grow()
-            count_of_food = 0
+            count_of_good_food = 0
             score += 1
+        # if snake.is_collision(bad_food.x, bad_food.y):
+        #     snake.de_grow()
+        #     count_of_bad_food = 0
         (dx, dy) = direction
         snake.move(dx, dy)
         screen.fill(WHITE)
-        level.draw_grid(screen)
-        food.draw(screen)
+        level.draw_level(screen)
+        good_food.draw(screen, GREEN)
+        # if level.with_bad_food:
+        #     bad_food.draw(screen, BROWN)
         draw_score(score)
         snake.draw(screen)
         if snake.head in level.barriers:

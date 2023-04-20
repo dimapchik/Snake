@@ -1,6 +1,7 @@
 import pygame
 from constants import *
 
+
 class Menu:
     def __init__(self, width, height):
         self.width = width
@@ -11,7 +12,6 @@ class Menu:
         self.start_button = pygame.Rect(self.width/3, self.height/2-50, self.width/3, 50)
         self.settings_button = pygame.Rect(self.width/3, self.height/2+50, self.width/3, 50)
         self.leader_board_button = pygame.Rect(self.width/3, self.height/2+150, self.width/3, 50)
-
 
     def draw(self):
         self.screen.fill(WHITE)
@@ -26,6 +26,7 @@ class Menu:
         self.screen.blit(settings_text, (self.width/2-45, self.height/2+60))
         self.screen.blit(leader_board_text, (self.width/2-70, self.height/2+160))
         pygame.display.update()
+
 
 class EndMenu:
     def __init__(self, width, height):
@@ -49,6 +50,7 @@ class EndMenu:
         self.screen.blit(score_text, (self.width/2, self.height/2-40))
         self.screen.blit(main_menu_text, (self.width/2, self.height * 3/4 + 10))
         pygame.display.update()
+
 
 class Setting:
     def __init__(self, width, height):
@@ -79,6 +81,7 @@ class Setting:
         self.screen.blit(fourth_level_text, (self.width * 4 / 5, self.height * 2 / 3))
         pygame.display.update()
 
+
 class LeaderBoard:
     def __init__(self, width, height):
         self.width = width
@@ -108,6 +111,7 @@ class LeaderBoard:
             (name, score) = top[i - 1]
             position_text = self.font.render(str(name) + ' ' + str(score), True, BLACK)
             screen.blit(position_text, (self.width / 3, self.height / 2 + self.height * i / 5 + 15))
-        main_menu_text = self.font.render('Main menu', True, BLACK)
+        pygame.draw.rect(screen, RED, self.main_menu)
+        main_menu_text = self.font.render('Back', True, BLACK)
         self.screen.blit(main_menu_text, (self.width / 6, self.height / 6))
         pygame.display.update()
