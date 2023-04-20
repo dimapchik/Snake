@@ -22,11 +22,8 @@ def draw_score(score):
     screen.blit(text, (5, 5))
 
 
-
 def start_game(speed):
-    # bad_food = Food(WIDTH, HEIGHT, CELL_SIZE)
-    # count_of_bad_food = 0
-    level = Level()
+    level.reset()
     level.draw_level()
     score = 0
     direction = RIGHT
@@ -42,34 +39,22 @@ def start_game(speed):
                     direction = LEFT
                 elif game_event.key == pygame.K_RIGHT and direction != LEFT:
                     direction = RIGHT
+                elif game_event.key == pygame.K_ESCAPE:
+                    game = False
 
             if game_event.type == pygame.QUIT:
                 game = False
         clock.tick(level.speed)
         level.speed *= 1.002
-        if level.count_of_good_food == 0:
-            level.good_food = Food(WIDTH, HEIGHT, CELL_SIZE)
-            while (level.good_food.x, level.good_food.y) in level.snake.body or (level.good_food.x, level.good_food.y) in level.barriers:
-                level.good_food = Food(WIDTH, HEIGHT, CELL_SIZE)
-            level.count_of_good_food += 1
-            # if count_of_bad_food == 0 and random.randint(1, 3) == 1:
-            #     bad_food = Food(WIDTH, HEIGHT, CELL_SIZE)
-            #     while bad_food in snake.body:
-            #         bad_food = Food(WIDTH, HEIGHT, CELL_SIZE)
-            #     count_of_bad_food += 1
-        if level.snake.is_collision(level.good_food.x, level.good_food.y):
-            level.snake.grow()
-            level.count_of_good_food = 0
-            score += 1
-        # if snake.is_collision(bad_food.x, bad_food.y):
-        #     snake.de_grow()
-        #     count_of_bad_food = 0
+        score = level.eat_food(score)
         (dx, dy) = direction
         level.snake.move(dx, dy)
         level.draw_level()
-        # if level.with_bad_food:
-        #     bad_food.draw(screen, BROWN)
         draw_score(score)
+        if len(level.snake.body) == 0:
+            game = False
+            leader_board.add_score(name, score)
+            end_menu.draw(score)
         if level.snake.head in level.barriers:
             game = False
             leader_board.add_score(name, score)
@@ -117,7 +102,7 @@ while running:
                 get_name()
                 start_game(level.speed)
             if main_menu.leader_board_button.collidepoint(event.pos):
-                leader_board.draw_top_scores(screen)
+                leader_board.draw_top_scores()
             if main_menu.settings_button.collidepoint(event.pos):
                 setting_menu.draw()
             if setting_menu.first_level.collidepoint(event.pos):
@@ -131,6 +116,9 @@ while running:
                 main_menu.draw()
             if setting_menu.fourth_level.collidepoint(event.pos):
                 level.set_fourth_level()
+                main_menu.draw()
+            if setting_menu.fifth_level.collidepoint(event.pos):
+                level.set_fifth_level()
                 main_menu.draw()
             if end_menu.retry.collidepoint(event.pos):
                 start_game(level.speed)

@@ -59,10 +59,11 @@ class Setting:
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.font = pygame.font.SysFont('Arial', 20)
         self.title = self.font.render('Settings', True, BLACK)
-        self.first_level = pygame.Rect(self.width / 5, self.height * 2 / 3, 75, 75)
-        self.second_level = pygame.Rect(self.width * 2 / 5 + 10, self.height * 2 / 3, 75, 75)
-        self.third_level = pygame.Rect(self.width * 3 / 5 + 10, self.height * 2 / 3, 75, 75)
-        self.fourth_level = pygame.Rect(self.width * 4 / 5, self.height* 2 / 3, 75, 75)
+        self.first_level = pygame.Rect(self.width / 6, self.height * 2 / 3, 75, 75)
+        self.second_level = pygame.Rect(self.width * 2 / 6, self.height * 2 / 3, 75, 75)
+        self.third_level = pygame.Rect(self.width * 3 / 6, self.height * 2 / 3, 75, 75)
+        self.fourth_level = pygame.Rect(self.width * 4 / 6, self.height * 2 / 3, 75, 75)
+        self.fifth_level = pygame.Rect(self.width * 5 / 6, self.height * 2 / 3, 75, 75)
 
     def draw(self):
         self.screen.fill(WHITE)
@@ -71,14 +72,17 @@ class Setting:
         pygame.draw.rect(self.screen, GREEN, self.second_level)
         pygame.draw.rect(self.screen, GREEN, self.third_level)
         pygame.draw.rect(self.screen, GREEN, self.fourth_level)
+        pygame.draw.rect(self.screen, GREEN, self.fifth_level)
         first_level_text = self.font.render('1 level', True, BLACK)
         second_level_text = self.font.render('2 level', True, BLACK)
         third_level_text = self.font.render('3 level', True, BLACK)
         fourth_level_text = self.font.render('4 level', True, BLACK)
-        self.screen.blit(first_level_text, (self.width / 5, self.height * 2 / 3))
-        self.screen.blit(second_level_text, (self.width * 2 / 5, self.height * 2 / 3))
-        self.screen.blit(third_level_text, (self.width * 3 / 5, self.height * 2 / 3))
-        self.screen.blit(fourth_level_text, (self.width * 4 / 5, self.height * 2 / 3))
+        fifth_level_text = self.font.render('5 level', True, BLACK)
+        self.screen.blit(first_level_text, (self.width / 6, self.height * 2 / 3))
+        self.screen.blit(second_level_text, (self.width * 2 / 6, self.height * 2 / 3))
+        self.screen.blit(third_level_text, (self.width * 3 / 6, self.height * 2 / 3))
+        self.screen.blit(fourth_level_text, (self.width * 4 / 6, self.height * 2 / 3))
+        self.screen.blit(fifth_level_text, (self.width * 5 / 6, self.height * 2 / 3))
         pygame.display.update()
 
 
@@ -102,16 +106,16 @@ class LeaderBoard:
         sorted_scores = sorted(self.scores, key=lambda x: x[1], reverse=True)
         return sorted_scores[:num_scores]
 
-    def draw_top_scores(self, screen):
-        screen.fill(WHITE)
-        screen.blit(self.title, (self.width/2-70, self.height/4))
+    def draw_top_scores(self):
+        self.screen.fill(WHITE)
+        self.screen.blit(self.title, (self.width/2-70, self.height/4))
         top = self.get_top_scores(min(len(self.scores), 5))
         for i in range(1, len(top) + 1):
-            pygame.draw.rect(screen, RED, self.positions['position_%s' % i])
+            pygame.draw.rect(self.screen, RED, self.positions['position_%s' % i])
             (name, score) = top[i - 1]
             position_text = self.font.render(str(name) + ' ' + str(score), True, BLACK)
-            screen.blit(position_text, (self.width / 3, self.height / 2 + self.height * i / 5 + 15))
-        pygame.draw.rect(screen, RED, self.main_menu)
+            self.screen.blit(position_text, (self.width / 3, self.height / 2 + self.height * i / 5))
+        pygame.draw.rect(self.screen, RED, self.main_menu)
         main_menu_text = self.font.render('Back', True, BLACK)
         self.screen.blit(main_menu_text, (self.width / 6, self.height / 6))
         pygame.display.update()

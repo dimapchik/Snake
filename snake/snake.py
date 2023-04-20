@@ -10,7 +10,8 @@ class Snake:
         self.head = ((x + dx) % (WIDTH // CELL_SIZE), (y + dy) % (HEIGHT // CELL_SIZE))
         for i in range(len(self.body) - 1, 0, -1):
             self.body[i] = self.body[i-1]
-        self.body[0] = self.head
+        if len(self.body) > 0:
+            self.body[0] = self.head
 
     def grow(self):
        self.body.append(self.body[-1])
