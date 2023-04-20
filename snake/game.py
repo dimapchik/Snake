@@ -32,15 +32,18 @@ def draw_grid(screen):
                 pygame.draw.rect(screen, RED, rect, CELL_SIZE // 2)
 
 def SetFirstLevel():
+    global speed
     speed = 5
-
 def SetSecondLevel():
+    global speed
     speed = 10
 
 def SetThirdLevel():
+    global speed
     speed = 15
 
 def SetFourthLevel():
+    global speed
     speed = 20
 def start_game(speed):
     direction = RIGHT
