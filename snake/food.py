@@ -16,5 +16,5 @@ class Food:
         pygame.draw.rect(screen, color, rect)
 
     def randomize_position(self):
-        self.x = random.randint(1, self.screen_width // self.cell_size - 2)
-        self.y = random.randint(1, self.screen_height // self.cell_size - 2)
+        self.x = random.randint(1, self.screen_width // self.cell_size - 1)
+        self.y = random.randint(1, self.screen_height // self.cell_size - 1)

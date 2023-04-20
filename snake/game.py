@@ -13,6 +13,7 @@ setting_menu = Setting(WIDTH, HEIGHT)
 leader_board = LeaderBoard(WIDTH, HEIGHT)
 main_menu = Menu(WIDTH, HEIGHT)
 main_menu.draw()
+name = ""
 
 
 def draw_score(score):
@@ -53,7 +54,7 @@ def start_game(speed):
         level.speed *= 1.001
         if count_of_good_food == 0:
             good_food = Food(WIDTH, HEIGHT, CELL_SIZE)
-            while (good_food.x, good_food.y) in snake.body:
+            while (good_food.x, good_food.y) in snake.body or (good_food.x, good_food.y) in level.barriers:
                 food = Food(WIDTH, HEIGHT, CELL_SIZE)
             count_of_good_food += 1
             # if count_of_bad_food == 0 and random.randint(1, 3) == 1:
@@ -79,20 +80,48 @@ def start_game(speed):
         snake.draw(screen)
         if snake.head in level.barriers:
             game = False
-            leader_board.add_score("aaa", score)
+            leader_board.add_score(name, score)
             end_menu.draw(score)
         if snake.is_self_collision():
             game = False
-            leader_board.add_score("aaa", score)
+            leader_board.add_score(name, score)
             end_menu.draw(score)
         pygame.display.update()
 
+
+def show_text(text, size, color, x, y):
+    font = pygame.font.SysFont('Arial', size)
+    text = font.render(text, True, color)
+    rect = text.get_rect()
+    rect.center = (x, y)
+    screen.blit(text, rect)
+
+
+def get_name():
+    global name
+    while True:
+        for name_event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+            elif name_event.type == pygame.KEYDOWN:
+                if name_event.key == pygame.K_RETURN:
+                    return name
+                elif name_event.key == pygame.K_BACKSPACE:
+                    name = name[:-1]
+                else:
+                    name += name_event.unicode
+        screen.fill(WHITE)
+        show_text("Enter your name:", 50, BLACK, WIDTH // 2, HEIGHT // 2 - 50)
+        show_text(name, 50, BLACK, WIDTH // 2, HEIGHT // 2)
+        pygame.display.update()
 
 running = True
 while running:
     for event in pygame.event.get():
         if event.type == pygame.MOUSEBUTTONDOWN:
             if main_menu.start_button.collidepoint(event.pos):
+                get_name()
                 start_game(level.speed)
             if main_menu.leader_board_button.collidepoint(event.pos):
                 leader_board.draw_top_scores(screen)
