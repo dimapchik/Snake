@@ -12,6 +12,7 @@ class Food:
         self.y = 0
         self.randomize_position()
         self.color = GREEN
+        self.spawn_rate = 1
 
     def draw(self, screen):
         rect = pygame.Rect(self.x * self.cell_size, self.y * self.cell_size, self.cell_size, self.cell_size)
@@ -21,20 +22,22 @@ class Food:
         self.x = random.randint(1, self.screen_width // self.cell_size - 1)
         self.y = random.randint(1, self.screen_height // self.cell_size - 1)
 
+    def apply_to_snake(self, snake):
+        snake.grow()
+
 
 class GoodFood(Food):
     def __init__(self, width, height, cell_size):
         super().__init__(width, height, cell_size)
         self.color = GREEN
-
-    def apply_to_snake(self, snake):
-        snake.grow()
+        self.spawn_rate = 1
 
 
 class DecreaseFood(Food):
     def __init__(self, width, height, cell_size):
         super().__init__(width, height, cell_size)
         self.color = BROWN
+        self.spawn_rate = 10
 
     def apply_to_snake(self, snake):
         snake.de_grow()

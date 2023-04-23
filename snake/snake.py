@@ -1,5 +1,7 @@
 import pygame
 from constants import *
+
+
 class Snake:
     def __init__(self, x, y):
         self.head = (x, y)

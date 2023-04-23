@@ -1,7 +1,4 @@
-import pygame
 from menu import *
-from snake import *
-from food import *
 from levels import *
 
 pygame.init()
@@ -22,7 +19,7 @@ def draw_score(score):
     screen.blit(text, (5, 5))
 
 
-def start_game(speed):
+def start_game():
     level.reset()
     level.draw_level()
     score = 0
@@ -93,7 +90,7 @@ while running:
         if event.type == pygame.MOUSEBUTTONDOWN:
             if main_menu.start_button.collidepoint(event.pos):
                 get_name()
-                start_game(level.speed)
+                start_game()
             if main_menu.leader_board_button.collidepoint(event.pos):
                 leader_board.draw_top_scores()
             if main_menu.settings_button.collidepoint(event.pos):
@@ -114,11 +111,11 @@ while running:
                 level.set_fifth_level()
                 main_menu.draw()
             if end_menu.retry.collidepoint(event.pos):
-                start_game(level.speed)
+                level.reset()
+                start_game()
             if end_menu.main_menu.collidepoint(event.pos):
                 main_menu.draw()
             if leader_board.main_menu.collidepoint(event.pos):
                 main_menu.draw()
         if event.type == pygame.QUIT:
             running = False
-
