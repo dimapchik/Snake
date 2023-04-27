@@ -1,3 +1,5 @@
+import pygame
+
 from menu import *
 from levels import *
 
@@ -53,6 +55,21 @@ def start_game():
             game = False
             leader_board.add_score(name, score)
             end_menu.draw(score)
+            is_end_menu_open = True
+            while is_end_menu_open:
+                for end_menu_event in pygame.event.get():
+                    if end_menu_event.type == pygame.MOUSEBUTTONDOWN:
+                        if end_menu.retry.collidepoint(end_menu_event.pos):
+                            scene.reset()
+                            start_game()
+                            is_end_menu_open = False
+                        if end_menu.main_menu.collidepoint(end_menu_event.pos):
+                            main_menu.draw()
+                            is_end_menu_open = False
+                    if end_menu_event.type == pygame.QUIT:
+                        is_end_menu_open = False
+                        game = False
+                        main_menu.draw()
 
         pygame.display.update()
 
@@ -94,6 +111,16 @@ while running:
                 start_game()
             if main_menu.leader_board_button.collidepoint(event.pos):
                 leader_board.draw_top_scores()
+                is_leaderboard_open = True
+                while is_leaderboard_open:
+                    for leader_board_event in pygame.event.get():
+                        if leader_board_event.type == pygame.MOUSEBUTTONDOWN:
+                            if leader_board.main_menu.collidepoint(leader_board_event.pos):
+                                main_menu.draw()
+                                is_leaderboard_open = False
+                        if leader_board_event.type == pygame.QUIT:
+                            main_menu.draw()
+                            is_leaderboard_open = False
             if main_menu.settings_button.collidepoint(event.pos):
                 setting_menu.draw()
                 setting_is_open = True
@@ -108,12 +135,5 @@ while running:
                         if setting_event.type == pygame.QUIT:
                             setting_is_open = False
                             main_menu.draw()
-            if end_menu.retry.collidepoint(event.pos):
-                scene.reset()
-                start_game()
-            if end_menu.main_menu.collidepoint(event.pos):
-                main_menu.draw()
-            if leader_board.main_menu.collidepoint(event.pos):
-                main_menu.draw()
         if event.type == pygame.QUIT:
             running = False
