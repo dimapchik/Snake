@@ -96,10 +96,18 @@ while running:
                 leader_board.draw_top_scores()
             if main_menu.settings_button.collidepoint(event.pos):
                 setting_menu.draw()
-            for i in range(setting_menu.count_levels):
-                if setting_menu.level_buttons[i].collidepoint(event.pos):
-                    scene.number_of_level = i + 1
-                    main_menu.draw()
+                setting_is_open = True
+                while setting_is_open:
+                    for setting_event in pygame.event.get():
+                        if setting_event.type == pygame.MOUSEBUTTONDOWN:
+                            for i in range(setting_menu.count_levels):
+                                if setting_menu.level_buttons[i].collidepoint(setting_event.pos):
+                                    scene.number_of_level = i + 1
+                                    setting_is_open = False
+                                    main_menu.draw()
+                        if setting_event.type == pygame.QUIT:
+                            setting_is_open = False
+                            main_menu.draw()
             if end_menu.retry.collidepoint(event.pos):
                 scene.reset()
                 start_game()

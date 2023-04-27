@@ -6,12 +6,13 @@ class Menu:
     def __init__(self, width, height):
         self.width = width
         self.height = height
+        self.delta = width / 10
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.font = pygame.font.SysFont('Arial', 30)
         self.title = self.font.render('Snake Game', True, BLACK)
-        self.start_button = pygame.Rect(self.width/3, self.height/2-50, self.width/3, 50)
-        self.settings_button = pygame.Rect(self.width/3, self.height/2+50, self.width/3, 50)
-        self.leader_board_button = pygame.Rect(self.width/3, self.height/2+150, self.width/3, 50)
+        self.start_button = pygame.Rect(self.width / 3, self.height / 3, self.width * 3 / 8, self.delta)
+        self.settings_button = pygame.Rect(self.width / 3, self.height / 2, self.width * 3 / 8, self.delta)
+        self.leader_board_button = pygame.Rect(self.width / 3, self.height * 2 / 3, self.width * 3 / 8, 2 * self.delta)
 
     def draw(self):
         self.screen.fill(WHITE)
@@ -21,10 +22,10 @@ class Menu:
         pygame.draw.rect(self.screen, BLUE, self.leader_board_button)
         start_text = self.font.render('Start', True, BLACK)
         settings_text = self.font.render('Settings', True, BLACK)
-        leader_board_text = self.font.render('Leader board', True, BLACK)
-        self.screen.blit(start_text, (self.width/2-30, self.height/2-40))
-        self.screen.blit(settings_text, (self.width/2-45, self.height/2+60))
-        self.screen.blit(leader_board_text, (self.width/2-70, self.height/2+160))
+        leader_board_text = self.font.render("Leader\nboard", True, BLACK)
+        self.screen.blit(start_text, (self.width / 3 + self.delta, self.height / 3 + self.delta / 5))
+        self.screen.blit(settings_text, (self.width / 3 + self.delta, self.height / 2 + self.delta / 5))
+        self.screen.blit(leader_board_text, (self.width / 3 + self.delta, self.height * 2 / 3 + self.delta / 5))
         pygame.display.update()
 
 
@@ -32,23 +33,24 @@ class EndMenu:
     def __init__(self, width, height):
         self.width = width
         self.height = height
+        self.delta = width / 10  # shift for text
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.font = pygame.font.SysFont('Arial', 20)
         self.title = self.font.render('Wasted!', True, BLACK)
-        self.retry = pygame.Rect(self.width/2, self.height/2, 100, 50)
-        self.main_menu = pygame.Rect(self.width/2, self.height * 3 / 4, 100, 50)
+        self.retry = pygame.Rect(self.width / 3, self.height * 2 / 3, width / 3, height // 17)
+        self.main_menu = pygame.Rect(self.width / 3, self.height * 3 / 4, width / 3, height // 15)
 
     def draw(self, score):
         self.screen.fill(WHITE)
-        self.screen.blit(self.title, (self.width/2, self.height/4))
+        self.screen.blit(self.title, (self.width * 2 / 5, self.height / 4))
         pygame.draw.rect(self.screen, RED, self.retry)
         pygame.draw.rect(self.screen, RED, self.main_menu)
         retry_text = self.font.render('Retry', True, BLACK)
         score_text = self.font.render('Your score: ' + str(score), True, BLACK)
         main_menu_text = self.font.render('Main menu', True, BLACK)
-        self.screen.blit(retry_text, (self.width/2 + 30, self.height/2 + 10))
-        self.screen.blit(score_text, (self.width/2, self.height/2-40))
-        self.screen.blit(main_menu_text, (self.width/2, self.height * 3/4 + 10))
+        self.screen.blit(retry_text, (self.width / 3 + self.delta, self.height * 2 / 3 + 5))
+        self.screen.blit(score_text, (self.width / 3 + self.delta, self.height / 2))
+        self.screen.blit(main_menu_text, (self.width / 3 + self.delta, self.height * 3 / 4 + 5))
         pygame.display.update()
 
 
@@ -62,8 +64,8 @@ class Setting:
         self.level_buttons = []
         self.count_levels = 5
         for i in range(self.count_levels):
-            self.level_buttons.append(pygame.Rect(self.width * (i + 1) / (self.count_levels + 1), self.height * 2 / 3, width / 10,
-                                        width / 10))
+            self.level_buttons.append(pygame.Rect(self.width * (i + 1) / (self.count_levels + 1), self.height * 2 / 3,
+                                                  width / 10, width / 10))
 
     def draw(self):
         self.screen.fill(WHITE)
