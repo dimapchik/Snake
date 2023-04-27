@@ -3,7 +3,7 @@ from levels import *
 
 pygame.init()
 clock = pygame.time.Clock()
-level = Level()
+scene = Scene()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 end_menu = EndMenu(WIDTH, HEIGHT)
 setting_menu = Setting(WIDTH, HEIGHT)
@@ -20,8 +20,8 @@ def draw_score(score):
 
 
 def start_game():
-    level.reset()
-    level.draw_level()
+    scene.reset()
+    scene.draw_scene()
     score = 0
     direction = RIGHT
     game = True
@@ -41,14 +41,15 @@ def start_game():
 
             if game_event.type == pygame.QUIT:
                 game = False
-        clock.tick(level.speed)
-        level.speed *= 1.002
-        score = level.eat_food(score)
+        clock.tick(scene.levels[scene.number_of_level - 1].speed)
+        scene.levels[scene.number_of_level - 1].speed *= 1.002
+        score = scene.check_eat_food(score)
         (dx, dy) = direction
-        level.snake.move(dx, dy)
-        level.draw_level()
+        scene.snake.move(dx, dy)
+        scene.draw_scene()
         draw_score(score)
-        if len(level.snake.body) == 0 or level.snake.head in level.barriers or level.snake.is_self_collision():
+        if len(scene.snake.body) == 0 or scene.snake.head in scene.levels[scene.number_of_level - 1].barriers or \
+                scene.snake.is_self_collision():
             game = False
             leader_board.add_score(name, score)
             end_menu.draw(score)
@@ -95,23 +96,12 @@ while running:
                 leader_board.draw_top_scores()
             if main_menu.settings_button.collidepoint(event.pos):
                 setting_menu.draw()
-            if setting_menu.first_level.collidepoint(event.pos):
-                level.set_first_level()
-                main_menu.draw()
-            if setting_menu.second_level.collidepoint(event.pos):
-                level.set_second_level()
-                main_menu.draw()
-            if setting_menu.third_level.collidepoint(event.pos):
-                level.set_third_level()
-                main_menu.draw()
-            if setting_menu.fourth_level.collidepoint(event.pos):
-                level.set_fourth_level()
-                main_menu.draw()
-            if setting_menu.fifth_level.collidepoint(event.pos):
-                level.set_fifth_level()
-                main_menu.draw()
+            for i in range(setting_menu.count_levels):
+                if setting_menu.level_buttons[i].collidepoint(event.pos):
+                    scene.number_of_level = i + 1
+                    main_menu.draw()
             if end_menu.retry.collidepoint(event.pos):
-                level.reset()
+                scene.reset()
                 start_game()
             if end_menu.main_menu.collidepoint(event.pos):
                 main_menu.draw()

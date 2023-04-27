@@ -59,30 +59,19 @@ class Setting:
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.font = pygame.font.SysFont('Arial', 20)
         self.title = self.font.render('Settings', True, BLACK)
-        self.first_level = pygame.Rect(self.width / 6, self.height * 2 / 3, 75, 75)
-        self.second_level = pygame.Rect(self.width * 2 / 6, self.height * 2 / 3, 75, 75)
-        self.third_level = pygame.Rect(self.width * 3 / 6, self.height * 2 / 3, 75, 75)
-        self.fourth_level = pygame.Rect(self.width * 4 / 6, self.height * 2 / 3, 75, 75)
-        self.fifth_level = pygame.Rect(self.width * 5 / 6, self.height * 2 / 3, 75, 75)
+        self.level_buttons = []
+        self.count_levels = 5
+        for i in range(self.count_levels):
+            self.level_buttons.append(pygame.Rect(self.width * (i + 1) / (self.count_levels + 1), self.height * 2 / 3, width / 10,
+                                        width / 10))
 
     def draw(self):
         self.screen.fill(WHITE)
         self.screen.blit(self.title, (self.width/2-70, self.height/4))
-        pygame.draw.rect(self.screen, GREEN, self.first_level)
-        pygame.draw.rect(self.screen, GREEN, self.second_level)
-        pygame.draw.rect(self.screen, GREEN, self.third_level)
-        pygame.draw.rect(self.screen, GREEN, self.fourth_level)
-        pygame.draw.rect(self.screen, GREEN, self.fifth_level)
-        first_level_text = self.font.render('1 level', True, BLACK)
-        second_level_text = self.font.render('2 level', True, BLACK)
-        third_level_text = self.font.render('3 level', True, BLACK)
-        fourth_level_text = self.font.render('4 level', True, BLACK)
-        fifth_level_text = self.font.render('5 level', True, BLACK)
-        self.screen.blit(first_level_text, (self.width / 6, self.height * 2 / 3))
-        self.screen.blit(second_level_text, (self.width * 2 / 6, self.height * 2 / 3))
-        self.screen.blit(third_level_text, (self.width * 3 / 6, self.height * 2 / 3))
-        self.screen.blit(fourth_level_text, (self.width * 4 / 6, self.height * 2 / 3))
-        self.screen.blit(fifth_level_text, (self.width * 5 / 6, self.height * 2 / 3))
+        for i in range(self.count_levels):
+            pygame.draw.rect(self.screen, GREEN, self.level_buttons[i])
+            level_text = self.font.render(f'{i + 1} level', True, BLACK)
+            self.screen.blit(level_text, (self.width * (i + 1) / (self.count_levels + 1), self.height * 2 / 3))
         pygame.display.update()
 
 
