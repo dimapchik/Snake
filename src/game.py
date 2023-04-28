@@ -1,5 +1,6 @@
 from src.menu import *
 from src.levels import *
+from src.scene import *
 
 
 def execute_pause():
