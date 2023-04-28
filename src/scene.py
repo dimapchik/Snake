@@ -1,5 +1,4 @@
-import pygame
-from src.constants import *
+from src.levels import *
 
 
 class Scene:

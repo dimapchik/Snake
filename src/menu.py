@@ -22,7 +22,7 @@ class Menu:
         pygame.draw.rect(self.screen, BLUE, self.leader_board_button)
         start_text = self.font.render('Start', True, BLACK)
         settings_text = self.font.render('Settings', True, BLACK)
-        leader_board_text = self.font.render("Leader\nboard", True, BLACK)
+        leader_board_text = self.font.render("Leader \n board", True, BLACK)
         self.screen.blit(start_text, (self.width / 3 + self.delta, self.height / 3 + self.delta / 5))
         self.screen.blit(settings_text, (self.width / 3 + self.delta, self.height / 2 + self.delta / 5))
         self.screen.blit(leader_board_text, (self.width / 3 + self.delta, self.height * 2 / 3 + self.delta / 5))
