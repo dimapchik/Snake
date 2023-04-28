@@ -1,6 +1,6 @@
 import pygame
 import random
-from constants import *
+from src.constants import *
 
 
 class Food:

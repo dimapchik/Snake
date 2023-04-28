@@ -1,5 +1,5 @@
-from snake import *
-from food import *
+from src.snake import *
+from src.food import *
 
 
 class Scene:
@@ -63,7 +63,7 @@ class Level:
         elif number_of_level == 3:
             self.set_third_level()
         elif number_of_level == 4:
-            self.set_first_level()
+            self.set_fourth_level()
         else:
             self.set_fifth_level()
 
