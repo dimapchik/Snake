@@ -1,5 +1,4 @@
-from src.snake import *
-from src.food import *
+from src.constants import *
 
 
 class Level:

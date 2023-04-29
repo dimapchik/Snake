@@ -1,6 +1,7 @@
-from src.menu import *
-from src.levels import *
-from src.scene import *
+import pygame
+from src.menu import Menu, EndMenu, LeaderBoard, Setting
+from src.scene import Scene
+from src.constants import *
 
 
 def execute_pause():

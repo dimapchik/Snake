@@ -1,4 +1,8 @@
-from src.levels import *
+import pygame
+from src.levels import Level
+from src.snake import Snake
+from src.food import GoodFood, DecreaseFood
+from src.constants import *
 
 
 class Scene:
