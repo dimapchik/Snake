@@ -114,7 +114,7 @@ class App:
         while is_leaderboard_open:
             for leader_board_event in pygame.event.get():
                 if leader_board_event.type == pygame.MOUSEBUTTONDOWN:
-                    if self.leader_board.main_menu.collidepoint(leader_board_event.pos):
+                    if self.leader_board.back.main_menu.collidepoint(leader_board_event.pos):
                         self.main_menu.draw()
                         is_leaderboard_open = False
                 if leader_board_event.type == pygame.QUIT:

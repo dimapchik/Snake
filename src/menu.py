@@ -116,16 +116,18 @@ class LeaderBoard:
     def __init__(self, width, height):
         self.width = width
         self.height = height
+        self.interface = InterfaceLeaderBoard(width, height)
         self.screen = pygame.display.set_mode((self.width, self.height))
-        self.delta = width / 50
-        self.font = pygame.font.SysFont('Arial', 20)
-        self.title = self.font.render('Leader Board', True, BLACK)
-        self.main_menu = pygame.Rect(self.width / 10, height / 10, self.width / 5, width / 25)
+        self.title_font = pygame.font.SysFont('Arial', 50)
+        self.common_font = pygame.font.SysFont('Arial', 20)
+        self.title = self.title_font.render('Leader Board', True, BLACK)
         self.positions = dict()
         self.back = Back(width, height)
         for i in range(1, 6):
-            self.positions['position_%s' % i] = pygame.Rect(self.width / 3, self.height / 2 + self.height * i / 5,
-                                                            self.width / 4, width / 25)
+            self.positions['position_%s' % i] = pygame.Rect(self.interface.width_player,
+                                                            self.interface.first_player_height +
+                                                            self.interface.between_players * i,
+                                                            self.interface.length_player, self.interface.thickness)
         self.scores = []
 
     def add_score(self, name, score):
@@ -137,12 +139,14 @@ class LeaderBoard:
 
     def draw_top_scores(self):
         self.screen.fill(WHITE)
-        self.screen.blit(self.title, (self.width / 3, self.height / 4))
+        self.screen.blit(self.title, (self.interface.title_width, self.interface.title_height))
         top = self.get_top_scores(min(len(self.scores), 5))
         for i in range(1, len(top) + 1):
             pygame.draw.rect(self.screen, RED, self.positions['position_%s' % i])
             (name, score) = top[i - 1]
-            position_text = self.font.render(str(name) + ': ' + str(score), True, BLACK)
-            self.screen.blit(position_text, (self.width / 3, self.height / 2 + self.height * i / 5))
-        self.back.draw(self.screen, self.font)
+            position_text = self.common_font.render(str(name) + ': ' + str(score), True, BLACK)
+            self.screen.blit(position_text, (self.interface.width_player + self.interface.text_width_shift,
+                                             self.interface.first_player_height + self.interface.between_players * i +
+                                             self.interface.text_height_shift))
+        self.back.draw(self.screen, self.common_font)
         pygame.display.update()

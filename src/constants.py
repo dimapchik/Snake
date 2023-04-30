@@ -73,3 +73,16 @@ class InterfaceSettingMenu:
         self.between_buttons = self.length_level_height * 3 / 2
         self.text_width_shift = 50
         self.text_height_shift = 9
+
+
+class InterfaceLeaderBoard:
+    def __init__(self, width, height):
+        self.title_width = width / 4
+        self.title_height = height / 3
+        self.length_player = width / 3
+        self.width_player = width / 3
+        self.thickness = 35
+        self.first_player_height = height / 2 - 70
+        self.between_players = self.thickness * 3 / 2
+        self.text_width_shift = 55
+        self.text_height_shift = 9
