@@ -6,12 +6,15 @@ class Back:
     def __init__(self, width, height):
         self.width = width
         self.height = height
-        self.main_menu = pygame.Rect(width / 10, height / 10, width / 5, width / 25)
+        self.interface = InterfaceBack(width, height)
+        self.main_menu = pygame.Rect(self.interface.button_width, self.interface.button_height,
+                                     self.interface.button_length, self.interface.button_thickness)
 
     def draw(self, screen, font):
         pygame.draw.rect(screen, RED, self.main_menu)
         main_menu_text = font.render('Back', True, BLACK)
-        screen.blit(main_menu_text, (self.width / 10, self.height / 10))
+        screen.blit(main_menu_text, (self.interface.button_width + self.interface.width_shift,
+                                     self.interface.button_height + self.interface.height_shift))
 
 
 class Menu:
@@ -84,25 +87,27 @@ class Setting:
     def __init__(self, width, height):
         self.width = width
         self.height = height
+        self.interface = InterfaceSettingMenu(width, height)
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.font = pygame.font.SysFont('Arial', 20)
-        self.delta = width / 50
         self.title = self.font.render('Settings', True, BLACK)
         self.level_buttons = []
         self.count_levels = 5
-        self.main_menu = pygame.Rect(self.width / 10, height / 10, self.width / 5, width / 25)
         self.back = Back(width, height)
         for i in range(self.count_levels):
-            self.level_buttons.append(pygame.Rect(self.width * (i + 1) / (self.count_levels + 1), self.height * 2 / 3,
-                                                  width / 10, width / 10))
+            self.level_buttons.append(pygame.Rect(self.interface.level_width, self.interface.first_button_height + i *
+                                                  self.interface.between_buttons, self.interface.length_level_width,
+                                                  self.interface.length_level_height))
 
     def draw(self):
         self.screen.fill(WHITE)
-        self.screen.blit(self.title, (self.width/2, self.height/4))
+        self.screen.blit(self.title, (self.interface.title_width, self.interface.title_height))
         for i in range(self.count_levels):
             pygame.draw.rect(self.screen, GREEN, self.level_buttons[i])
             level_text = self.font.render(f'{i + 1} level', True, BLACK)
-            self.screen.blit(level_text, (self.width * (i + 1) / (self.count_levels + 1), self.height * 2 / 3))
+            self.screen.blit(level_text, (self.interface.level_width + self.interface.text_width_shift,
+                                          self.interface.first_button_height + i * self.interface.between_buttons +
+                                          self.interface.text_height_shift))
         self.back.draw(self.screen, self.font)
         pygame.display.update()
 

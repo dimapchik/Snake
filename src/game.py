@@ -132,7 +132,7 @@ class App:
                             self.scene.number_of_level = i + 1
                             setting_is_open = False
                             self.main_menu.draw()
-                    if self.setting_menu.main_menu.collidepoint(setting_event.pos):
+                    if self.setting_menu.back.main_menu.collidepoint(setting_event.pos):
                         setting_is_open = False
                         self.main_menu.draw()
                 if setting_event.type == pygame.QUIT:

@@ -16,6 +16,16 @@ UP = (0, -1)
 DOWN = (0, 1)
 
 
+class InterfaceBack:
+    def __init__(self, width, height):
+        self.button_width = width / 10
+        self.button_height = height / 10
+        self.button_length = width / 5
+        self.button_thickness = 30
+        self.width_shift = 25
+        self.height_shift = 5
+
+
 class InterfaceMainMenu:
     def __init__(self, width, height):
         self.title_width = width / 2 - 70
@@ -50,3 +60,16 @@ class InterfaceEndMenu:
         self.retry_height_shift = 5
         self.menu_width_shift = width // 12
         self.menu_height_shift = 5
+
+
+class InterfaceSettingMenu:
+    def __init__(self, width, height):
+        self.title_width = width / 3 + 50
+        self.title_height = height / 4
+        self.length_level_width = width / 3
+        self.length_level_height = 35
+        self.level_width = width / 3
+        self.first_button_height = height / 2 - 50
+        self.between_buttons = self.length_level_height * 3 / 2
+        self.text_width_shift = 50
+        self.text_height_shift = 9
