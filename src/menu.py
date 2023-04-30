@@ -31,7 +31,7 @@ class Menu:
 
     def draw(self):
         self.screen.fill(WHITE)
-        self.screen.blit(self.title, (self.width/2-70, self.height/4))
+        self.screen.blit(self.title, (self.interface.title_width, self.interface.title_height))
         pygame.draw.rect(self.screen, RED, self.start_button)
         pygame.draw.rect(self.screen, GREEN, self.settings_button)
         pygame.draw.rect(self.screen, BLUE, self.leader_board_button)
@@ -46,7 +46,7 @@ class Menu:
         self.screen.blit(leader_text, (self.interface.button_width + self.interface.leader_shift_width,
                                        self.interface.third_button_height + self.interface.shift_height))
         self.screen.blit(board_text, (self.interface.button_width + self.interface.board_shift_width,
-                                      self.interface.third_button_height + 3 * self.interface.shift_height))
+                                      self.interface.third_button_height + self.interface.board_shift_height))
         pygame.display.update()
 
 
@@ -54,24 +54,29 @@ class EndMenu:
     def __init__(self, width, height):
         self.width = width
         self.height = height
-        self.delta = width / 10  # shift for text
+        self.interface = InterfaceEndMenu(width, height)
         self.screen = pygame.display.set_mode((self.width, self.height))
-        self.font = pygame.font.SysFont('Arial', 20)
-        self.title = self.font.render('Wasted!', True, BLACK)
-        self.retry = pygame.Rect(self.width / 3, self.height * 2 / 3, width / 3, height // 17)
-        self.main_menu = pygame.Rect(self.width / 3, self.height * 3 / 4, width / 3, height // 15)
+        self.title_font = pygame.font.SysFont('Arial', 50)
+        self.common_font = pygame.font.SysFont('Arial', 20)
+        self.title = self.title_font.render('Wasted!', True, BLACK)
+        self.retry = pygame.Rect(self.interface.button_width, self.interface.retry_height, self.interface.length_button,
+                                 self.interface.thickness)
+        self.main_menu = pygame.Rect(self.interface.button_width, self.interface.menu_height,
+                                     self.interface.length_button, self.interface.thickness)
 
     def draw(self, score):
         self.screen.fill(WHITE)
-        self.screen.blit(self.title, (self.width * 2 / 5, self.height / 4))
+        self.screen.blit(self.title, (self.interface.title_width, self.interface.title_height))
         pygame.draw.rect(self.screen, RED, self.retry)
         pygame.draw.rect(self.screen, RED, self.main_menu)
-        retry_text = self.font.render('Retry', True, BLACK)
-        score_text = self.font.render('Your score: ' + str(score), True, BLACK)
-        main_menu_text = self.font.render('Main menu', True, BLACK)
-        self.screen.blit(retry_text, (self.width / 3 + self.delta, self.height * 2 / 3 + 5))
-        self.screen.blit(score_text, (self.width / 3 + self.delta, self.height / 2))
-        self.screen.blit(main_menu_text, (self.width / 3 + self.delta, self.height * 3 / 4 + 5))
+        retry_text = self.common_font.render('Retry', True, BLACK)
+        score_text = self.common_font.render('Your score: ' + str(score), True, BLACK)
+        main_menu_text = self.common_font.render('Main menu', True, BLACK)
+        self.screen.blit(retry_text, (self.interface.button_width + self.interface.retry_width_shift,
+                                      self.interface.retry_height + self.interface.retry_height_shift))
+        self.screen.blit(score_text, (self.interface.score_width, self.interface.score_height))
+        self.screen.blit(main_menu_text, (self.interface.button_width + self.interface.menu_width_shift,
+                                          self.interface.menu_height + self.interface.menu_height_shift))
         pygame.display.update()
 
 

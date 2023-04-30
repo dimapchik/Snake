@@ -32,3 +32,21 @@ class InterfaceMainMenu:
         self.setting_shift_width = 45
         self.leader_shift_width = 50
         self.board_shift_width = 60
+        self.board_shift_height = 3 * self.shift_height
+
+
+class InterfaceEndMenu:
+    def __init__(self, width, height):
+        self.title_width = width / 3
+        self.title_height = height / 4
+        self.button_width = width / 3
+        self.length_button = width / 3
+        self.retry_height = height * 2 / 3
+        self.menu_height = height * 3 / 4
+        self.score_width = width / 3 + 20
+        self.score_height = height / 2
+        self.thickness = 30
+        self.retry_width_shift = width // 10 + 10
+        self.retry_height_shift = 5
+        self.menu_width_shift = width // 12
+        self.menu_height_shift = 5
