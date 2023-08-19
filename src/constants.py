@@ -15,6 +15,8 @@ LEFT = (-1, 0)
 UP = (0, -1)
 DOWN = (0, 1)
 
+MAXSPEED = 100
+
 
 class InterfaceBack:
     def __init__(self, width, height):

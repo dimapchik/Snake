@@ -54,13 +54,15 @@ class App:
                 if game_event.type == pygame.QUIT:
                     game = False
             self.clock.tick(self.scene.levels[self.scene.number_of_level - 1].speed)
-            self.scene.levels[self.scene.number_of_level - 1].speed *= 1.002
+            s = self.scene.levels[self.scene.number_of_level - 1].speed
+            self.scene.levels[self.scene.number_of_level - 1].speed = min(s * 1.002, MAXSPEED)
             score = self.scene.check_eat_food(score)
             (dx, dy) = direction
             self.scene.snake.move(dx, dy)
             self.scene.draw_scene()
             self.draw_score(score)
-            if len(self.scene.snake.body) == 0 or self.scene.snake.head in self.scene.levels[self.scene.number_of_level - 1].barriers or \
+            if len(self.scene.snake.body) == 0 or self.scene.snake.head \
+                    in self.scene.levels[self.scene.number_of_level - 1].barriers or \
                     self.scene.snake.is_self_collision():
                 game = False
                 self.leader_board.add_score(self.name, score)
@@ -154,4 +156,3 @@ class App:
                 if end_menu_event.type == pygame.QUIT:
                     is_end_menu_open = False
                     self.main_menu.draw()
-
