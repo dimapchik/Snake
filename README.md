@@ -2,6 +2,8 @@
 
 Простая реализация игры SNAKE 
 
+Для работы у вас должен быть установлен python, а так же пакет pygame. Ваша операционная система должна поддерживать графический режим.
+
 Для игры нужно просто запустить файл main.py:
 
 # Правила игры
@@ -15,6 +17,8 @@
 -----
 
 A simple implementation of the SNAKE game
+
+To work, you must have python installed, as well as the pygame package. Your operating system must support graphics mode.
 
 To play, simply run the main.py file:
 
